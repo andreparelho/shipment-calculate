@@ -1,11 +1,9 @@
 package com.freightcalculator.app.factory;
 
 import com.freightcalculator.app.strategy.ShipmentStrategy;
-import com.freightcalculator.app.validator.ShipmentValidator;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -17,9 +15,9 @@ public class ShipmentFactoryImpl implements ShipmentFactory {
     }
 
     @Override
-    public List<ShipmentValidator> getShipmentValidators(String shippingCompany) {
-        String beanName = MessageFormat.format("{0}-{1}", shippingCompany.toLowerCase(), "strategy");
-        ShipmentStrategy shipmentStrategy = shipmentStrategyMap.get(beanName);
-        return shipmentStrategy.getShipmentValidators();
+    public double getShipmentValidators(String shippingCompanies) {
+        String beanName = MessageFormat.format("{0}", shippingCompanies);
+        ShipmentStrategy shipmentStrategy = this.shipmentStrategyMap.get(beanName);
+        return shipmentStrategy.shipmentCalculate();
     }
 }

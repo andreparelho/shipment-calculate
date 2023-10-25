@@ -1,7 +1,9 @@
 package com.freightcalculator.app.validator;
 
 import com.freightcalculator.app.model.Package;
+import org.springframework.stereotype.Service;
 
+@Service
 public class WeightPackageValidatorImpl implements ShipmentValidator {
 
     @Override
