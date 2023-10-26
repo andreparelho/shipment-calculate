@@ -1,29 +1,28 @@
 package com.freightcalculator.app.service;
 
-import com.freightcalculator.app.factory.ShipmentFactory;
 import com.freightcalculator.app.model.Package;
 import com.freightcalculator.app.strategy.ShipmentStrategy;
-import com.freightcalculator.app.validator.ShipmentValidator;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ShipmentService {
-    private final ShipmentFactory shipmentFactory;
-    private final ShipmentStrategy shipmentStrategy;
-    private final String shippingCompanies = "companies";
-    public ShipmentService(ShipmentFactory shipmentFactory,ShipmentStrategy shipmentStrategy) {
-        this.shipmentFactory = shipmentFactory;
-        this.shipmentStrategy = shipmentStrategy;
+    private final Map<String, ShipmentStrategy> shipmentStrategies;
+
+    public ShipmentService(Map<String, ShipmentStrategy> shipmentStrategies) {
+        this.shipmentStrategies = shipmentStrategies;
     }
 
-    public double calculateShipping(Package pack){
-
-        double shipmentValidators = this.shipmentFactory.getShipmentValidators(this.shippingCompanies);
-        if (shipmentStrategy.shipmentCalculate() > 0){
-            return shipmentStrategy.shipmentCalculate();
-        }
-        return 0;
+    public Map<String, Double> calculateShipping(Package pack){
+        Map<String, Double> shippingTable = new HashMap<>();
+        this.shipmentStrategies.entrySet().stream()
+                .forEach(entry -> {
+                    String shippingCompany = entry.getKey();
+                    ShipmentStrategy shipmentStrategy = entry.getValue();
+                    shippingTable.put(shippingCompany, shipmentStrategy.shipmentCalculate(pack));
+                });
+        return shippingTable;
     }
 }

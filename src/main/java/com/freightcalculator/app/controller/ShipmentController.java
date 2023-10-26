@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/shipment")
 public class ShipmentController {
@@ -18,10 +20,8 @@ public class ShipmentController {
     }
 
     @PostMapping("/calculate")
-    public ResponseEntity<String> calculateShip(@RequestBody Package pack){
-        if (this.shipmentService.calculateShipping(pack) == 0){
-            return ResponseEntity.badRequest().body("Erro ao calcular o frete");
-        }
-        return ResponseEntity.ok("Valor do frete: " + this.shipmentService.calculateShipping(pack));
+    public ResponseEntity<Map<String, Double>> calculateShip(@RequestBody Package pack) {
+        Map<String, Double> shippingTable = this.shipmentService.calculateShipping(pack);
+        return ResponseEntity.ok(shippingTable);
     }
 }

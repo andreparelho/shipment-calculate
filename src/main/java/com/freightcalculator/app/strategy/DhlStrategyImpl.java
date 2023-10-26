@@ -4,10 +4,10 @@ import com.freightcalculator.app.model.Package;
 import org.springframework.stereotype.Service;
 
 @Service("correios")
-public class CorreiosStrategyImpl implements ShipmentStrategy {
+public class DhlStrategyImpl implements ShipmentStrategy {
 
     private final double coefficient = 0.1;
-    private final double valueRandom = 10;
+    private final double valueRandom = 5;
     private final double internacionalCoefficient = 6000;
 
     @Override

@@ -5,6 +5,15 @@ public class Package {
     private float distance;
     private PackageVolume packageVolume;
 
+    public Package(float weight, float distance, PackageVolume packageVolume) throws Exception {
+        if (distance <= 0.0) throw new Exception("Invalid distance");
+        if (weight <= 0.0) throw new Exception("Invalid weight");
+
+        this.weight = weight;
+        this.distance = distance;
+        this.packageVolume = packageVolume;
+    }
+
     public float getWeight() {
         return weight;
     }
@@ -27,5 +36,9 @@ public class Package {
 
     public void setPackageVolume(PackageVolume packageVolume) {
         this.packageVolume = packageVolume;
+    }
+
+    public double getVolume(){
+        return this.packageVolume.getVolume();
     }
 }
